@@ -1,23 +1,16 @@
- #root , html, body {
-     height: 100vh;
- }
+#root, html, body {
+    height: 100vh;
+}
 
- body{
-     margin : 0;
-     background-color: whitesmoke;
-     /* background-image: url(https://media.istockphoto.com/photos/sliced-figure-picture-id1300035600?s=2048x2048); */
-     /* object-fit: cover */
- }
+body {
+    margin: 0;
+    background-color: whitesmoke;
+}
 
- * {
-     box-sizing: border-box;
-     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
- }
+* {
+    box-sizing: border-box;
+}
 
- html{
-     scroll-behavior: smooth;
- }
-
- h1{
-     align-self: auto;
- }
+html {
+    scroll-behavior: smooth;
+}
