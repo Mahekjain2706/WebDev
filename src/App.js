@@ -1,12 +1,14 @@
+import Slider from './slider'; 
 import React, { useState, useEffect } from 'react';
 import { Typography } from '@material-ui/core';
 import wordsToNumbers from 'words-to-numbers';
 import alanBtn from '@alan-ai/alan-sdk-web';
-
-import logo from './images/logo.png';
+import CollapsibleExample from './Navbar';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { NewsCards, Modal } from './components';
 import useStyles from './styles';
-
+import GridExample from './cards';
+import NavPillsExample from './cards';
 const App = () => {
   const [activeArticle, setActiveArticle] = useState(0);
   const [newsArticles, setNewsArticles] = useState([]);
@@ -40,29 +42,22 @@ const App = () => {
         }
       },
     });
-  }, []);
-
+});
   return (
     <div>
-      <div className={classes.logoContainer}>
-        {newsArticles.length ? (
-          <div className={classes.infoContainer}>
-            <div className={classes.card}><Typography variant="h5" component="h2">Try saying: <br /><br />Open article number [4]</Typography></div>
-            <div className={classes.card}><Typography variant="h5" component="h2">Try saying: <br /><br />Go back</Typography></div>
-          </div>
-        ) : null}
-        <img src="https://alan.app/voice/images/previews/preview.jpg" className={classes.alanLogo} alt="logo" />
-      </div>
+    <CollapsibleExample/>
+    <NavPillsExample/>
+    <Slider/>
       <NewsCards articles={newsArticles} activeArticle={activeArticle} />
       <Modal isOpen={isOpen} setIsOpen={setIsOpen} />
       {!newsArticles.length ? (
         <div className={classes.footer}>
-          <Typography variant="body1" component="h2">
+          {/* <Typography variant="body1" component="h2">
             Created by
             <a className={classes.link} href="https://www.linkedin.com/in/adrian-hajdin/"> Adrian Hajdin</a> -
             <a className={classes.link} href="http://youtube.com/javascriptmastery"> JavaScript Mastery</a>
-          </Typography>
-          <img className={classes.image} src={logo} height="50px" alt="JSMastery logo" />
+          </Typography> */}
+          {/* <img className={classes.image} src={logo} height="50px" alt="JSMastery logo" /> */}
         </div>
       ) : null}
     </div>
