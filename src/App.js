@@ -9,6 +9,7 @@ import { NewsCards, Modal } from './components';
 import useStyles from './styles';
 import GridExample from './cards';
 import NavPillsExample from './cards';
+
 const App = () => {
   const [activeArticle, setActiveArticle] = useState(0);
   const [newsArticles, setNewsArticles] = useState([]);
@@ -42,11 +43,52 @@ const App = () => {
         }
       },
     });
+
+    const body = document.body
+const slides = document.querySelectorAll('.slide')
+const leftBtn = document.getElementById('left')
+const rightBtn = document.getElementById('right')
+
+let activeSlide = 0
+
+rightBtn.addEventListener('click', () => {
+  activeSlide++
+
+  if (activeSlide > slides.length - 1) {
+    activeSlide = 0
+  }
+
+  setBgToBody()
+  setActiveSlide()
+})
+
+leftBtn.addEventListener('click', () => {
+  activeSlide--
+
+  if (activeSlide < 0) {
+    activeSlide = slides.length - 1
+  }
+
+  setBgToBody()
+  setActiveSlide()
+})
+
+setBgToBody()
+
+function setBgToBody() {
+  body.style.backgroundImage = slides[activeSlide].style.backgroundImage
+}
+
+function setActiveSlide() {
+  slides.forEach((slide) => slide.classList.remove('active'))
+
+  slides[activeSlide].classList.add('active')
+}
 });
   return (
     <div>
     <CollapsibleExample/>
-    <NavPillsExample/>
+    {/* <NavPillsExample/> */}
     <Slider/>
       <NewsCards articles={newsArticles} activeArticle={activeArticle} />
       <Modal isOpen={isOpen} setIsOpen={setIsOpen} />
