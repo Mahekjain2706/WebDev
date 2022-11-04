@@ -7,8 +7,9 @@ import CollapsibleExample from './Navbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { NewsCards, Modal } from './components';
 import useStyles from './styles';
-import GridExample from './cards';
 import NavPillsExample from './cards';
+// import './App.css'
+import { useSpeechSynthesis } from 'react-speech-kit';
 
 const App = () => {
   const [activeArticle, setActiveArticle] = useState(0);
@@ -85,10 +86,11 @@ function setActiveSlide() {
   slides[activeSlide].classList.add('active')
 }
 });
+
   return (
     <div>
     <CollapsibleExample/>
-    {/* <NavPillsExample/> */}
+    <NavPillsExample/>
     <Slider/>
       <NewsCards articles={newsArticles} activeArticle={activeArticle} />
       <Modal isOpen={isOpen} setIsOpen={setIsOpen} />

@@ -1,10 +1,22 @@
-import * as React from 'react';
+import { StylesContext } from '@material-ui/styles';
+import React,{useState} from 'react';
 import * as bootstrap from  'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Nav from 'react-bootstrap/Nav';
+import { useSpeechSynthesis } from 'react-speech-kit';
+import { Container , Segment} from 'semantic-ui-react'
 
 function NavPillsExample() {
+
+  
+  const [text,setText] = useState('');
+  const {speak} = useSpeechSynthesis();
+
+  const handleOnClick = () => {
+      speak({text:text})
+  }
+
   return (
     <Card>
       <Card.Header>
@@ -20,14 +32,13 @@ function NavPillsExample() {
       </Card.Header>
       <Card.Body>
         <Card.Img variant={"top"} src={"./images/cards.png"}/>
-        <Card.Title>Special title treatment</Card.Title>
-        <Card.Text>
-          With supporting text below as a natural lead-in to additional content.
-        </Card.Text>
-        <Button variant="primary">Go somewhere</Button>
-        <Button variant="primary">Go somewhere</Button>
-        <Button variant="primary">Go somewhere</Button>
-        <Button variant="primary">Go somewhere</Button>
+        <Card.Title classsName="textAreaStyle">Special title treatment</Card.Title>
+        <textArea classsName="textAreaStyle" onChange={(e)=>{setText(e.target.value)}}>
+        </textArea><br></br><br></br>
+        <Button variant="primary me-2 px-3" className="buttonStyle" onClick={()=>{handleOnClick()}}>Listen</Button>
+        <Button variant="primary me-2 px-4">Like</Button>
+        <Button variant="primary me-2 ">Comment</Button>
+        <Button variant="primary me-2">favourite</Button>
       </Card.Body>
     </Card>
   );
