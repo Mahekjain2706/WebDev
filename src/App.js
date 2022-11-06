@@ -1,4 +1,4 @@
-import Slider from './slider'; 
+import Slider from './slider';
 import React, { useState, useEffect } from 'react';
 import { Typography } from '@material-ui/core';
 import wordsToNumbers from 'words-to-numbers';
@@ -10,6 +10,8 @@ import useStyles from './styles';
 import NavPillsExample from './cards';
 // import './App.css'
 import { useSpeechSynthesis } from 'react-speech-kit';
+import { Button } from 'bootstrap';
+import axios from 'axios'
 
 const App = () => {
   const [activeArticle, setActiveArticle] = useState(0);
@@ -46,61 +48,93 @@ const App = () => {
     });
 
     const body = document.body
-const slides = document.querySelectorAll('.slide')
-const leftBtn = document.getElementById('left')
-const rightBtn = document.getElementById('right')
+    const slides = document.querySelectorAll('.slide')
+    const leftBtn = document.getElementById('left')
+    const rightBtn = document.getElementById('right')
 
-let activeSlide = 0
+    let activeSlide = 0
 
-rightBtn.addEventListener('click', () => {
-  activeSlide++
+    rightBtn.addEventListener('click', () => {
+      activeSlide++
 
-  if (activeSlide > slides.length - 1) {
-    activeSlide = 0
+      if (activeSlide > slides.length - 1) {
+        activeSlide = 0
+      }
+
+      setBgToBody()
+      setActiveSlide()
+    })
+
+    leftBtn.addEventListener('click', () => {
+      activeSlide--
+
+      if (activeSlide < 0) {
+        activeSlide = slides.length - 1
+      }
+
+      setBgToBody()
+      setActiveSlide()
+    })
+
+    setBgToBody()
+
+    function setBgToBody() {
+      body.style.backgroundImage = slides[activeSlide].style.backgroundImage
+    }
+
+    function setActiveSlide() {
+      slides.forEach((slide) => slide.classList.remove('active'))
+
+      slides[activeSlide].classList.add('active')
+    }
+  });
+
+  const [data, setData] = useState([])
+  const getNews = () => {
+    axios.get("https://newsapi.org/v2/top-headlines?country=in&apiKey=35541c85ab1f4527b6b2aed6e580c56b")
+      .then((response) => {
+        //  console.log(response);
+        setData(response.data.articles)
+      })
   }
-
-  setBgToBody()
-  setActiveSlide()
-})
-
-leftBtn.addEventListener('click', () => {
-  activeSlide--
-
-  if (activeSlide < 0) {
-    activeSlide = slides.length - 1
-  }
-
-  setBgToBody()
-  setActiveSlide()
-})
-
-setBgToBody()
-
-function setBgToBody() {
-  body.style.backgroundImage = slides[activeSlide].style.backgroundImage
-}
-
-function setActiveSlide() {
-  slides.forEach((slide) => slide.classList.remove('active'))
-
-  slides[activeSlide].classList.add('active')
-}
-});
 
   return (
     <div>
-    <CollapsibleExample/>
-    <NavPillsExample/>
-    <Slider/>
+      <CollapsibleExample />
+      {/* <NavPillsExample /> */}
+      <Slider />
       <NewsCards articles={newsArticles} activeArticle={activeArticle} />
       <Modal isOpen={isOpen} setIsOpen={setIsOpen} />
+
       {!newsArticles.length ? (
-        <div className={classes.footer}>
+        <div className="next" >
+          <button className='btn btn-primary' onClick={getNews} >Fetch News</button>
+
+          <div className='container1' >
+            <div className="row">
+              {
+                data.map((value) => {
+                  return (
+                    <div className="col-3">
+                      <div className="card" style={{ width: "20rem",target:"_blank",overflow:"scroll" }}>
+                        <img  src={value.urlToImage} className="card-img-top" alt="Card image cap" />
+                        <div className="card-body">
+                          <h5 className="card-title">{value.title}</h5>
+                          <p className="card-text">{value.description}</p>
+                          <a href={value.url} className="btn btn-primary">Main News</a>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })
+              }
+            </div>
+          </div>
           {/* <Typography variant="body1" component="h2">
-            Created by
-            <a className={classes.link} href="https://www.linkedin.com/in/adrian-hajdin/"> Adrian Hajdin</a> -
-            <a className={classes.link} href="http://youtube.com/javascriptmastery"> JavaScript Mastery</a>
-          </Typography> */}
+                  Created by
+                  <a className={classes.link} href="https://www.linkedin.com/in/adrian-hajdin/"> Adrian Hajdin</a> -
+                  <a className={classes.link} href="http://youtube.com/javascriptmastery"> JavaScript Mastery</a>
+                </Typography> */}
           {/* <img className={classes.image} src={logo} height="50px" alt="JSMastery logo" /> */}
         </div>
       ) : null}
@@ -108,4 +142,4 @@ function setActiveSlide() {
   );
 };
 
-export default App;
+      export default App;
